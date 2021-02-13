@@ -10,6 +10,8 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!-- WEB과 관련된 설정 -->
+
     <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
     <!-- Enable the Spring MVC @Controller programming model -->
