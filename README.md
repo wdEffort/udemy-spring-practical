@@ -135,3 +135,30 @@
     - requires_new(상수 값: 3) : 각각 트랜잭션을 처리하는 것을 의미한다.
     - not_supported(상수 값: 4) : 트랜잭션을 필요로 하지 않는다. 기존의 트랜잭션이 존재하면 일시 중지하고 메소드 실행이 끝난 후에 트랜잭션을 계속 진행한다.
     - never(상수 값: 5) : 트랜잭션을 필요로 하지 않는다. 진행중인 트랜잭션이 존재하면 예외를 발생시킨다.
+
+---
+
+## 스프링을 이용한 파일 업로드
+
+1. pom.xml 설정 파일에 `commons-fileupload` 의존 설정
+   ```xml
+   <dependencies>
+       <!-- File Upload -->
+       <dependency>
+           <groupId>commons-fileupload</groupId>
+           <artifactId>commons-fileupload</artifactId>
+           <version>1.3.3</version>
+       </dependency>
+   </dependencies>
+   ```
+2. servlet-context.xml 설정 파일에 `MultipartResolver` Bean 설정
+    - MultipartResolver 프로퍼티 종류
+        1) maxUploadSize : 최대 업로드 가능한 바이트 크기
+        2) maxInMemorySize : 디스크에 임시 파일을 생성하기 전에 메모리에 보관할 수 있는 최대 바이트 크기
+        3) defaultEncoding : 요청을 파싱할 때 사용할 캐릭터 인코딩(기본 값 : ISO-8859-1)
+   ```xml
+    <!-- MultipartResolver -->
+    <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"/>
+    </bean>
+   ```
