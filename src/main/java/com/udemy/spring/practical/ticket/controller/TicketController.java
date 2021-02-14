@@ -28,7 +28,8 @@ public class TicketController {
 
     @RequestMapping(value = "/buy", method = RequestMethod.POST)
     public String ticket(BuyVO buyVO, Model model) {
-        ticketService.buyTicket(buyVO);
+        //ticketService.buyTicket(buyVO);
+        ticketService.execute(buyVO);
 
         model.addAttribute("buyVO", buyVO);
 
