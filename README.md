@@ -179,7 +179,7 @@
       </bean>
 
       <!-- BeanNameViewResolver -->
-      <bean name="" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+      <bean name="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
          <!-- InternalResourceViewResolver 보다 높은 우선순위를 갖도록 설정 -->
          <property name="order" value="0"/>
       </bean>
@@ -187,5 +187,102 @@
 2. AbstractView 클래스를 이용하여 파일 다운로드 비즈니스 로직 구현
     - void `renderMergedOutputModel()` 메소드를 구현해야 한다.
    ```java
-
+   public class FileDownloadView extends AbstractView {
+   
+       public FileDownloadView() {
+           setContentType("application/download; charset=utf-8");
+       }
+   
+       @Override
+       protected void renderMergedOutputModel(Map<String, Object> map,
+                                              HttpServletRequest request,
+                                              HttpServletResponse response) throws Exception {
+           System.out.println("FileDownloadService.renderMergedOutputModel() called ...");
+   
+           String uploadPath = "/Users/yoman/Workspace/Java/intelliJ/personal/udemy/spring-practical/upload"; // 파일 업로드 경로
+           String savedFileName = "test.txt";
+           File file = new File(uploadPath + "/" + savedFileName); // 파일 경로에서 파일을 가져옴
+   
+           response.setContentType(getContentType()); // 컨텐츠 타입(MIME 타입 지정, 캐릭터 인코딩 지정 등)
+           response.setContentLength(100); // 파일의 크기
+   
+           String userAgent = request.getHeader("User-Agent"); // 헤더 정보에서 접속 기기 정보를 가져옴
+           String fileName = null;
+   
+           // 한글 파일명에 대한 깨짐 현상 처리
+           if (userAgent.indexOf("MSIE") > -1) { // 이용하는 브랑우저가 IE인 경우
+               System.out.println();
+               fileName = URLEncoder.encode(file.getName(), "UTF-8");
+           } else {
+               fileName = new String(file.getName().getBytes("UTF-8"), "ISO-8859-1");
+           }
+   
+           response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+           response.setHeader("Content-Transfer-Encoding", "binary");
+   
+           OutputStream out = response.getOutputStream();
+           FileInputStream in = null;
+   
+           try {
+               in = new FileInputStream(file);
+               FileCopyUtils.copy(in, out);
+           } catch (Exception e) {
+               e.printStackTrace();
+           } finally {
+               if (in != null) {
+                   try {
+                       in.close();
+                   } catch (IOException e) {
+                       System.out.println("IOException : " + e.toString());
+                   }
+               }
+           }
+   
+           out.flush();
+       }
+   
+   }
    ```
+3. AbstractView 클래스를 구현한 클래스를 servlet-context.xml 설정 파일에 Bean으로 등록
+    - BeanNameViewResolver 해당 Bean을 View로 사용하게 된다.
+      ```xml
+      <!-- 파일 다운로드 View -->
+      <bean name="fileDownloadView" class="com.udemy.spring.practical.upload.view.FileDownloadView"/>
+      ```
+
+---
+
+## Excel 다루기
+
+1. pom.xml 설정 파일에 `commons-fileupload` 의존 설정
+   ```xml
+   <dependencies>
+        <!-- Apache POI -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+   </dependencies>
+   ```
+2. servlet-context.xml 설정 파일에 `ResourceBundleViewResolver` Bean 설정
+    - 이때 InternalResourceViewResolver 보다 높은 우선 순위를 갖도록 해야 한다.
+      ```xml
+      <!-- Resolves views seleted for rendering by @Controllers to .jsp resources in the /WEB-INF/views -->
+      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+         <property name="prefix" value="/WEB-INF/views/"/>
+         <property name="suffix" value=".jsp"/>
+         <!-- 항상 다른 ViewResolver 보다 낮은 우선순위를 갖도록 설정 -->
+         <property name="order" value="1"/>
+      </bean>
+
+      <!-- ResourceBundleViewResolver -->
+      <bean name="resourceBundleViewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+        <!-- properteis 파일명 설정 -->
+        <beans:property name="basename" value="views"/>
+         <!-- InternalResourceViewResolver 보다 높은 우선순위를 갖도록 설정 -->
+         <property name="order" value="0"/>
+      </bean>
+      ```
+3. View를 담당할 properties 파일 생성(경로: /src/main/resources)
+    - /src/main/resources/views.properties

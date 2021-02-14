@@ -25,13 +25,13 @@ public class FileDownloadView extends AbstractView {
     /**
      * 파일 다운로드 메소드
      *
-     * @param map
+     * @param model    Model 객체
      * @param request
      * @param response
      * @throws Exception
      */
     @Override
-    protected void renderMergedOutputModel(Map<String, Object> map,
+    protected void renderMergedOutputModel(Map<String, Object> model,
                                            HttpServletRequest request,
                                            HttpServletResponse response) throws Exception {
         System.out.println("FileDownloadService.renderMergedOutputModel() called ...");

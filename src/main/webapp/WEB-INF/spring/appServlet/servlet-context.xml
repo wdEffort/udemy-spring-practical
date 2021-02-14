@@ -33,13 +33,19 @@
     <resources mapping="/resources/**" location="/resources/"/>
 
     <!-- Resolves views seleted for rendering by @Controllers to .jsp resources in the /WEB-INF/views -->
-    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="1">
+    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="2">
         <beans:property name="prefix" value="/WEB-INF/views/"/>
         <beans:property name="suffix" value=".jsp"/>
     </beans:bean>
 
     <!-- BeanNameViewResolver -->
     <beans:bean name="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
+
+    <!-- ResourceBundleViewResolver -->
+    <beans:bean name="resourceBundleViewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver" p:order="1">
+        <!-- properteis 파일명 설정 -->
+        <beans:property name="basename" value="views"/>
+    </beans:bean>
 
     <!-- 파일 다운로드 View -->
     <beans:bean name="fileDownloadView" class="com.udemy.spring.practical.upload.view.FileDownloadView"/>
