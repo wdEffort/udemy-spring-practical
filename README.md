@@ -92,3 +92,20 @@
     - public int `update(String sql, @Nullable PreparedStatementSetter pss)` throws DataAccessException :
     - public int `update(PreparedStatementCreator psc)` throws DataAccessException :
 5. execute() : Connection을 직접 사용해야 하는 경우에 사용하는 메소드이다. Connection의 생성과 종료는 JdbcTemplate에서 처리하기 때문에 직접 할 필요는 없다.
+
+---
+
+## 트랜잭션 전략
+
+1. 스프링에서 제공하는 프로그래밍적인 트랙잭션 관리 방법
+2. PlatformTransactionManager를 사용하는 방법
+    - org.springframework.jdbc.datasource.DataSourceTransactionManager 클래스를 servlet-context.xml 설정 파일에서 Bean으로 등록
+      ```xml
+       <!-- TransactionManager -->
+       <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+           <property name="dataSource" ref="dataSource"/>
+       </bean>
+      ```
+    - org.springframework.transaction.TransactionDefinition과 org.springframework.transaction.TransactionStatus 클래스를 사용
+        1) 트랙잭션 초기화
+        2) 트랙잭션 커밋(Commit), 롤백(Rollback)
