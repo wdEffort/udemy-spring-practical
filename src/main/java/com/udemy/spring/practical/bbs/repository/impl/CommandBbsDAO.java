@@ -15,6 +15,10 @@ public class CommandBbsDAO implements BbsDAO {
 
     private DataSource dataSource;
 
+    /**
+     * BbsDAO 객체 생성시 드라이버 로딩
+     * 매번 작업이 수행되기 때문에 'JdbcTemplate'을 사용하는 경우 이를 자동으로 처리하도록 설정할 수 있음.
+     */
     public CommandBbsDAO() {
         try {
             Context ctx = new InitialContext();

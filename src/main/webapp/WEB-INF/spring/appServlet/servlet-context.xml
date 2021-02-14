@@ -37,4 +37,18 @@
         <beans:property name="suffix" value=".jsp"/>
     </beans:bean>
 
+    <!-- Oracle DataSource -->
+    <beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <beans:property name="username" value="udemy"/>
+        <beans:property name="password" value="udemy"/>
+    </beans:bean>
+
+    <!-- JdbcTemplate -->
+    <beans:bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <!-- DataSource Bean을 주입 -->
+        <beans:property name="dataSource" ref="dataSource"/>
+    </beans:bean>
+
 </beans:beans>
