@@ -162,3 +162,30 @@
         <property name="maxUploadSize" value="10485760"/>
     </bean>
    ```
+
+---
+
+## AbstractView를 이용한 파일 다운로드 구현
+
+1. servlet-context.xml 설정 파일에 `BeanNameViewResolver` Bean 설정
+    - 이때 InternalResourceViewResolver 보다 높은 우선 순위를 갖도록 해야 한다.
+      ```xml
+      <!-- Resolves views seleted for rendering by @Controllers to .jsp resources in the /WEB-INF/views -->
+      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+         <property name="prefix" value="/WEB-INF/views/"/>
+         <property name="suffix" value=".jsp"/>
+         <!-- 항상 다른 ViewResolver 보다 낮은 우선순위를 갖도록 설정 -->
+         <property name="order" value="1"/>
+      </bean>
+
+      <!-- BeanNameViewResolver -->
+      <bean name="" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+         <!-- InternalResourceViewResolver 보다 높은 우선순위를 갖도록 설정 -->
+         <property name="order" value="0"/>
+      </bean>
+      ```
+2. AbstractView 클래스를 이용하여 파일 다운로드 비즈니스 로직 구현
+    - void `renderMergedOutputModel()` 메소드를 구현해야 한다.
+   ```java
+
+   ```

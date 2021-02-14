@@ -10,24 +10,28 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/file")
-public class FileUploadController {
+public class FileController {
 
     @Autowired
     private FileUploadService fileUploadService;
 
     /**
+     * 파일 업로드 화면 요청
+     *
      * @return
      */
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public ModelAndView uploadForm() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("upload/form");
+        mv.setViewName("file/form");
 
 
         return mv;
     }
 
     /**
+     * 파일 업로드 요청
+     *
      * @param multipartHttpServletRequest
      * @return
      */
@@ -41,7 +45,19 @@ public class FileUploadController {
             mv.addObject("message", "파일 업로드 실패");
         }
 
-        mv.setViewName("upload/result");
+        mv.setViewName("file/result");
+
+        return mv;
+    }
+
+    /**
+     * 파일 다운로드 요청
+     *
+     * @return
+     */
+    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    public ModelAndView download() {
+        ModelAndView mv = new ModelAndView("fileDownloadView");
 
         return mv;
     }
