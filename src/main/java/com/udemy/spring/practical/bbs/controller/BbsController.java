@@ -1,8 +1,11 @@
 package com.udemy.spring.practical.bbs.controller;
 
 import com.udemy.spring.practical.bbs.service.BbsService;
-import com.udemy.spring.practical.bbs.service.impl.CommandBbsServiceImpl;
+import com.udemy.spring.practical.bbs.service.impl.JdbcTemplateBbsServiceImpl;
 import com.udemy.spring.practical.bbs.vo.BbsVO;
+import com.udemy.spring.practical.template.StaticJdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,7 +18,21 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/bbs")
 public class BbsController {
 
-    private BbsService bbsService = null;
+    private JdbcTemplate jdbcTemplate;
+    private BbsService bbsService;
+
+    /**
+     * 이 생성자 메소드에서는 스프링 컨테이너에서 가져온 JdbcTemplate Bean 객체를
+     * StaticJdbcTemplate 클래스의 static 프로퍼티에 설정해 줌으로써 메모리에 등록시키기 위한 작업을 한다.
+     * 나중에 Repository에서 메모리에 올라가 있는 JdbcTemplate을 이용하여 쿼리를 수행할 수 있다.
+     *
+     * @param jdbcTemplate
+     */
+    @Autowired
+    public BbsController(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        StaticJdbcTemplate.jdbcTemplate = this.jdbcTemplate;
+    }
 
     /**
      * BbsVO 커맨드 객체 생성 메소드
@@ -36,7 +53,7 @@ public class BbsController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
-        this.bbsService = new CommandBbsServiceImpl();
+        this.bbsService = new JdbcTemplateBbsServiceImpl();
         this.bbsService.list(model);
 
         return "bbs/list";
@@ -51,7 +68,7 @@ public class BbsController {
     public String write(HttpServletRequest request, Model model) {
         model.addAttribute("request", request);
 
-        this.bbsService = new CommandBbsServiceImpl();
+        this.bbsService = new JdbcTemplateBbsServiceImpl();
         this.bbsService.write(model);
 
         return "redirect:/bbs/list";
@@ -61,7 +78,7 @@ public class BbsController {
     public String view(HttpServletRequest request, Model model) {
         model.addAttribute("request", request);
 
-        this.bbsService = new CommandBbsServiceImpl();
+        this.bbsService = new JdbcTemplateBbsServiceImpl();
         this.bbsService.view(model);
 
         return "bbs/view";
@@ -71,7 +88,7 @@ public class BbsController {
     public String modify(HttpServletRequest request, Model model) {
         model.addAttribute("request", request);
 
-        this.bbsService = new CommandBbsServiceImpl();
+        this.bbsService = new JdbcTemplateBbsServiceImpl();
         this.bbsService.modify(model);
 
         return "redirect:/bbs/list";
@@ -81,7 +98,7 @@ public class BbsController {
     public String delete(HttpServletRequest request, Model model) {
         model.addAttribute("request", request);
 
-        this.bbsService = new CommandBbsServiceImpl();
+        this.bbsService = new JdbcTemplateBbsServiceImpl();
         this.bbsService.delete(model);
 
         return "redirect:/bbs/list";
@@ -91,7 +108,7 @@ public class BbsController {
     public String replyForm(HttpServletRequest request, Model model) {
         model.addAttribute("request", request);
 
-        this.bbsService = new CommandBbsServiceImpl();
+        this.bbsService = new JdbcTemplateBbsServiceImpl();
         this.bbsService.replyForm(model);
 
         return "bbs/reply";
@@ -101,7 +118,7 @@ public class BbsController {
     public String reply(HttpServletRequest request, Model model) {
         model.addAttribute("request", request);
 
-        this.bbsService = new CommandBbsServiceImpl();
+        this.bbsService = new JdbcTemplateBbsServiceImpl();
         this.bbsService.reply(model);
 
         return "redirect:/bbs/list";

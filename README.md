@@ -69,3 +69,26 @@
       <property name="dataSource" ref="dataSource"/>
    </bean>
    ```
+
+---
+
+## JdbcTemplate에서 사용할 수 있는 메소드
+
+1. query()  : SELECT 쿼리를 실행할 때 사용하는 메소드이다.
+    - public \<T\> List\<T\> `query(String sql, Object[] args, RowMapper<T> rowMapper)` throws DataAccessException
+    - public \<T\> List\<T\> `query(String sql, RowMapper<T> rowMapper)` throws DataAccessException : `sql` 파라미터는 실행시킬
+      쿼리(문자열)이고, `rowMapper` 파라미터는 쿼리 실행 결과가 담길 RowMapper 객체이다.
+        1) RowMapper\<T\>는 인터페이스이며 mapRow() 메소드를 정의하고 있다. 이는 ResultSet에서 읽어온 값을 이용해서 `원하는 타입의 객체`를 생성한뒤 반환한다.
+            - T mapRow(ResultSet rs, int rowNum) throws SQLException;
+            - 구현 클래스 : BeanPropertyRowMapper\<T\>
+2. queryForObject() : 쿼리 실행 결과의 행의 개수가 한 개인 경우 사용하는 메소드이다. 전달되는 각 파라미터가 query() 메소드와 동일하지만, List 객체를 반환하지 않고, 한 개의 객체를
+   반환한다. 만약, 반환되는 행(레코드)의 개수가 여러 개인 경우 IncorrectResultSizeDataAccessException이 발생한다.
+    - public \<T\> T `queryForObject(String sql, RowMapper<T> rowMapper)` throws DataAccessException
+    - public \<T\> T `queryForObject(String sql, Object[] args, RowMapper<T> rowMapper)` throws DataAccessException
+3. queryForInt(), queryForLong() : 반환 타입이 Object가 아니고, int, Long 타입의 결과를 구할 때 사용하는 메소드이다.
+4. update() : INSERT, UPDATE, DELETE 쿼리를 실행할 때 사용하는 메소드이다. 쿼리 실행 결과 변경된 행의 개수를 반환한다.
+    - public int `update(String sql)` throws DataAccessException :
+    - public int `update(String sql, Object[] args)` throws DataAccessException :
+    - public int `update(String sql, @Nullable PreparedStatementSetter pss)` throws DataAccessException :
+    - public int `update(PreparedStatementCreator psc)` throws DataAccessException :
+5. execute() : Connection을 직접 사용해야 하는 경우에 사용하는 메소드이다. Connection의 생성과 종료는 JdbcTemplate에서 처리하기 때문에 직접 할 필요는 없다.

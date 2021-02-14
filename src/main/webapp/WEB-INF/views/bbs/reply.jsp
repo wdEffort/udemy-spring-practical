@@ -22,11 +22,11 @@
             <tbody>
             <tr>
                 <td>글 번호</td>
-                <td>${bbs.bbsId}</td>
+                <td>${bbsVO.bbsId}</td>
             </tr>
             <tr>
                 <td>조회수</td>
-                <td>${bbs.bbsHit}</td>
+                <td>${bbsVO.bbsHit}</td>
             </tr>
             <tr>
                 <td><label for="bbsName">작성자</label></td>

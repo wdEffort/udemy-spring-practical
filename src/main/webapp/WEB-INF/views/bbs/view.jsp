@@ -20,11 +20,11 @@
             <tbody>
             <tr>
                 <td>글 번호</td>
-                <td>${bbs.bbsId}</td>
+                <td>${bbsVO.bbsId}</td>
             </tr>
             <tr>
                 <td>조회수</td>
-                <td>${bbs.bbsHit}</td>
+                <td>${bbsVO.bbsHit}</td>
             </tr>
             <tr>
                 <td><form:label path="bbsName">작성자</form:label></td>
@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <td><form:label path="bbsCtt">내용</form:label></td>
-                <td><form:textarea path="bbsCtt" cols="100" rows="8">${bbsVO.bbsCtt}</form:textarea></td>
+                <td><form:textarea path="bbsCtt" cols="100" rows="8" value="${bbsVO.bbsCtt}"/></td>
             </tr>
             <tr>
                 <td colspan="2" align="center">
