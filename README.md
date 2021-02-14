@@ -109,3 +109,16 @@
     - org.springframework.transaction.TransactionDefinition과 org.springframework.transaction.TransactionStatus 클래스를 사용
         1) 트랙잭션 초기화
         2) 트랙잭션 커밋(Commit), 롤백(Rollback)
+3. TransactionTemplate을 사용하는 방법
+   ```xml
+   <!-- TransactionTemplate -->
+    <beans:bean name="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <beans:property name="transactionManager" ref="transactionManager"/>
+    </beans:bean>
+   ```
+    - `Callback` 접근 방법을 사용하는 방식이며, 리소스 획득과 해제 작업으로부터 어플리케이션 코드를 해방시켜주는 방법이다.
+        1) 즉, try-catch-finally를 할 필요가 없다.
+    - TransactionCallback 인터페이스 구현 객체를 사용한다.
+        1) `doInTransaction()` 메소드를 구현해야 한다.
+    - TransactionCallbackWithoutResult를 사용한다.
+        1) `doInTransactionWithoutResult()` 메소드를 구현해야 한다.
