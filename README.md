@@ -395,3 +395,119 @@
       // Getter, Setter
    }
    ```
+
+---
+
+## 마이바티스(MyBatis) 사용하기
+
+1. 마이바티스가 무엇이고, 사용법에 대한 상세한 내용은 [마이바티스 홈페이지](https://mybatis.org/mybatis-3/ko/index.html) 를 참고한다.
+2. 마이바티스 설정 작업
+    - 스프링 프레임워크와 마이바티스를 연동하기 위한 라이브러리를 설정한다.
+        1) MyBatis 프레임워크 추가
+        2) MyBatis-Spring 모듈 추가
+            - 마이바티스 프레임워크와 스프링 프레임워크를 연결해주는 역할
+        3) Spring-JDBC 라이브러리 추가
+            ```xml
+            <dependencies>
+                 <!-- mybatis -->
+                 <dependency>
+                     <groupId>org.mybatis</groupId>
+                     <artifactId>mybatis</artifactId>
+                     <version>3.5.4</version>
+                 </dependency>
+              
+                 <!-- mybatis-spring -->
+                 <dependency>
+                     <groupId>org.mybatis</groupId>
+                     <artifactId>mybatis-spring</artifactId>
+                     <version>2.0.4</version>
+                 </dependency>
+              
+                 <!-- spring-jdbc -->
+                 <dependency>
+                     <groupId>org.springframework</groupId>
+                     <artifactId>spring-jdbc</artifactId>
+                     <version>${spring-webmvc-version}</version>
+                 </dependency>
+            </dependencies>
+           ```
+        4) Spring-Test 라이브러리 추가
+            ```xml
+            <dependencies>
+                <!-- spring-test -->
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-test</artifactId>
+                    <version>${spring-webmvc-version}</version>
+                </dependency>
+            </dependencies>
+           ```
+    - 데이터베이스와 연결을 담당하는 `DataSouce` 객체를 설정한다.
+        1) servelt-context.xml에 설정
+            ```xml
+           <!-- Oracle DataSource -->
+           <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+              <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+              <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+              <property name="username" value="udemy"/>
+              <property name="password" value="udemy"/>
+           </bean>
+   
+           <!-- JdbcTemplate -->
+           <bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+              <!-- DataSource Bean을 주입 -->
+              <property name="dataSource" ref="dataSource"/>
+           </bean>
+            ```
+    - 마이바티스의 핵심인 `SqlSessionFactory` 객체를 설정한다.
+        1) servelt-context.xml에 설정
+         ```xml
+         <!-- MyBatis SqlSessionFactory -->
+         <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+            <!-- DataSource Bean을 주입 -->
+            <property name="dataSource" ref="dataSource"/>
+            <!-- SQL Mapper XML 파일 경로 -->
+            <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+         </bean>
+   
+         <!-- MyBatis sqlSessionTemplate -->
+         <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+            <!-- SqlSessionFactoryBean 주입 -->
+            <constructor-arg ref="sqlSessionFactory"/>
+         </bean>
+         ```
+
+---
+
+## 마이바티스(MyBatis) 구조
+
+1. 기존 방식에서 DAO와 DB의 연결을 JDBC를 이용해서 했다면, MyBatis를 사용하는 경우 MyBatis-Spring이라는 `Persisrtance 프레임워크`를 이용한다.
+    - MyBatis-Spring은 `SqlSessionTemplate`으로부터 마이바티스와 스프링을 연결시키는 역할을 하고, 내부에 MyBatis를 가지고 있다.
+        1) SqlSessionTemplate : MyBatis-Spring이 가지고 있으며, DAO에 주입되어 실질적으로 마이바티스와 스프링을 연결시켜주는 역할을 한다.
+    - MyBatis에서는 마이바티스의 핵심인 `SqlSessionFactory`를 가지고 있다.
+        1) SqlSessionFactory : 실제 DB와 연결하고, 쿼리를 실행시킬 수 있다.
+            - `DataSource`를 포함시킨다.
+            - SQL Query를 매핑시킬 수 있는 `Mapper(XML 또는 인터페이스로 구현)`가 있다.
+2. SqlSessionTemplate을 DAO에 연결시켜 쿼리를 실행시키는 구조이므로, SqlSessionTemplate 안에 SqlSessionFactory를 포함시키는 설정을 해주어야 한다.
+
+---
+
+## 스프링 + 마이바티스
+
+1. 마이바티스를 사용하는데 있어서 SQL문을 사용하는 방식
+    - (권장) XML만을 이용해서 SQL문을 설정하고 DAO에서 XML을 찾아서 실행하는 코드를 작성하는 방식이다.
+        1) 장점 : SQL문은 별도의 XML로 작성되기 때문에 SQL문의 수정이나 유지보수가 많은 경우 관리하기가 좋다.
+        2) 단점 : 개발시 코드의 양이 많아진다.(복잡성 증가)
+    - 어노테이션과 인터페이스만을 이용해서 SQL문을 설정하는 방식
+        1) 장점 : DAO 없이도 개발이 가능하기 때문에 생산성이 향상된다.
+        2) 단점 : SQL문을 어노테이션으로 작성하기 때문에 매번 수정이 일어나는 경우 재컴파일을 해야한다.
+    - 인터페이스와 XML로 작성된 SQL문을 활용하는 방식
+        1) 장점 : 간단한 SQL문은 어노테이션을 활용하고, 복잡한 SQL문은 XML로 처리하므로 유연성이 증가된다.
+        2) 단점 : 유지보수가 많은 프로젝트에서는 부적합한 방식이다.
+2. 개발 순서
+    - DB 설계 및 개발 준비
+    - 도메인 객체의 설계 및 클래스 작성
+    - DAO 인터페이스 작성
+    - XML SQL Mapper 생성과 SQL문 작성
+    - 마이바티스에서 XML SQL Mapper를 인식하도록 설정
+    - DAO 구현(SqlSessionTemplate 설정 및 구현 클래스 작성)

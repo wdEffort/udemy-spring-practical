@@ -39,10 +39,12 @@
     </beans:bean>
 
     <!-- BeanNameViewResolver -->
-    <beans:bean name="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
+    <beans:bean name="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"
+                p:order="0"/>
 
     <!-- ResourceBundleViewResolver -->
-    <beans:bean name="resourceBundleViewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver" p:order="1">
+    <beans:bean name="resourceBundleViewResolver"
+                class="org.springframework.web.servlet.view.ResourceBundleViewResolver" p:order="1">
         <!-- properteis 파일명 설정 -->
         <beans:property name="basename" value="views"/>
     </beans:bean>
@@ -88,6 +90,20 @@
         <beans:property name="propagationBehavior" value="0"/>
         <!-- never -->
         <!--<beans:property name="propagationBehavior" value="5"/>-->
+    </beans:bean>
+
+    <!-- MyBatis SqlSessionFactory -->
+    <beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- DataSource Bean을 주입 -->
+        <beans:property name="dataSource" ref="dataSource"/>
+        <!-- SQL Mapper XML 파일 경로 -->
+        <beans:property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </beans:bean>
+
+    <!-- MyBatis sqlSessionTemplate -->
+    <beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <!-- SqlSessionFactoryBean 주입 -->
+        <beans:constructor-arg ref="sqlSessionFactory"/>
     </beans:bean>
 
 </beans:beans>

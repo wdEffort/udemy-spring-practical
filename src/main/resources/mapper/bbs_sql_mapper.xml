@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 속성 : SQL Mapper에 매핑할 클래스 -->
+<mapper namespace="com.udemy.spring.practical.bbs.repository.BbsDAO">
+
+    <!--
+    id 속성 : 쿼리를 실행할 SQL Mapper에 매핑된 클래스의 메소드 이름
+    resultType 속성 : 반환 타입
+    -->
+    <select id="list" resultType="com.udemy.spring.practical.bbs.vo.BbsVO">
+        SELECT BBS_ID AS bbsId,
+               BBS_NAME AS bbsName,
+               BBS_SBJ AS bbsSbj,
+               BBS_CTT AS bbsCtt,
+               BBS_DATE AS bbsDate,
+               BBS_HIT AS bbsHit,
+               BBS_GROUP AS bbsGroup,
+               BBS_STEP AS bbsStep,
+               BBS_INDENT AS bbsIndent
+        FROM BBS
+        ORDER BY BBS_GROUP DESC, BBS_STEP ASC
+    </select>
+
+    <!--
+    <insert id="">
+
+    </insert>
+
+    <update id="">
+
+    </update>
+
+    <delete id="">
+
+    </delete>
+    -->
+</mapper>
