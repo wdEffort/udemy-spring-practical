@@ -286,3 +286,50 @@
       ```
 3. View를 담당할 properties 파일 생성(경로: /src/main/resources)
     - /src/main/resources/views.properties
+
+--- 
+
+## Maven 하이버네이트(Hibernate) Validator 적용하기
+
+1. pom.xml 설정 파일에 `Hibernate` 의존 설정
+   ```xml
+    <!-- 저장소 -->
+    <repositories>
+        <!-- Hibernate Repository(JBossdp 포함되어 있음) -->
+        <repository>
+            <id>jboss-repo</id>
+            <name>Hibernate Repository</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
+   
+    <dependencies>
+        <!-- Hibernate Validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.1.5.Final</version>
+        </dependency>
+
+        <!-- Hibernate Annotaion -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.5.3-Final</version>
+        </dependency>
+    </dependencies>
+   ```
+2. Controller의 핸들러 메소드에서 `@Valid(javax.validation.Valid)` 어노테이션을 이용하여 메소드 파라미터로 있는 커맨드 객체에 대한 검증 처리를 진행한다.
+   ```java
+   @Controller
+   @RequestMapping("/member")
+   public class MemberController {
+
+       @RequestMapping(value = "/join", method = RequestMethod.POST)
+       public String join(@Valid Member member, BindingResult result) {
+            // code
+       }
+   }
+   ``` 
+
+---

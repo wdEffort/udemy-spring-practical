@@ -24,11 +24,20 @@
         <junit-version>4.11</junit-version>
     </properties>
 
+    <!-- 저장소 -->
     <repositories>
+        <!-- Oracle JDBC Repository -->
         <repository>
             <id>oracle</id>
             <name>ORACLE JDBC Repository</name>
             <url>https://repo.spring.io/plugins-release/</url>
+        </repository>
+
+        <!-- Hibernate Repository(JBossdp 포함되어 있음) -->
+        <repository>
+            <id>jboss-repo</id>
+            <name>Hibernate Repository</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public</url>
         </repository>
     </repositories>
 
@@ -38,6 +47,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring-webmvc-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
@@ -76,6 +91,8 @@
             <artifactId>spring-test</artifactId>
             <version>${spring-webmvc-version}</version>
         </dependency>
+
+        <!-- JUnit Test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -104,11 +121,18 @@
             <version>${spring-webmvc-version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+        <!-- Hibernate Validator -->
         <dependency>
-            <groupId>org.hibernate.validator</groupId>
+            <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>6.1.5.Final</version>
+        </dependency>
+
+        <!-- Hibernate Annotaion -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.5.3-Final</version>
         </dependency>
 
         <!-- AOP -->
@@ -123,6 +147,27 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>4.1.2</version>
+        </dependency>
+
+        <!-- SLF4J Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
+        <!-- Logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+        <!-- Spring에서 내부적으로 사용하는 common-logging을 사용하지 못하도록 할 때 발생하는 에러를 방지 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.25</version>
         </dependency>
     </dependencies>
 
