@@ -331,5 +331,67 @@
        }
    }
    ``` 
+3. Form Check 진행
+    - 예제
+      ```java
+      import javax.persistence.*;
+      import javax.validation.constraints.NotNull;
+      import javax.validation.constraints.Pattern;
+      import javax.validation.constraints.Size;
+      
+      @Entity // 데이터베이스 테이블에 대응되는 개념
+      public class Member {
+         @Id // 테이블 Primary Key에 대응되는 개념
+         @Column
+         @Size(min = 4, max = 8, message = "아이디는 4 ~ 8자리 이내로 입력해 주세요.") // 입력 길이 제약사항 설정
+         // @GeneratedValue(strategy = GenerationType.AUTO) // Oracle의 Sequence, MySQL의 auto_increment와 같은 개념
+         private String id;
+      
+         @Column // 테이블 컬럼에 대응되는 개념
+         @NotNull // Not Null 제약사항 설정
+         @Size(min = 2, max = 5, message = "이름은 2 ~ 5자리 이내로 입력해 주세요.") // 입력 길이 제약사항 설정
+         private String name;
+         
+         @Column
+         @NotNull
+         @Size(min = 1, max = 3, message = "나이는 1 ~ 3자리 숫자로 입력해 주세요.") // 입력 길이 제약사항 설정
+         // private int age; // 하이버네이트의 Validator는 Integer형에 대한 검증을 지원하지 않음.
+         private String age;
+      
+         // Getter, Setter
+      }
+      ```
 
 ---
+
+## java.util.regex 정규화 API 이용하기
+
+1. [오라클 Java 8 API 문서](https://docs.oracle.com/javase/8/docs/api/index.html) 에서 java.util.regex에 해당하는 내용을 참고한다.
+2. 사용 방법
+   ```java
+   import javax.persistence.*;
+   import javax.validation.constraints.NotNull;
+   import javax.validation.constraints.Pattern;
+   import javax.validation.constraints.Size;
+   
+   @Entity 
+   public class Member {
+   
+      @Id 
+      @Column
+      @Size(min = 4, max = 8, message = "아이디는 4 ~ 8자리 이내로 입력해 주세요.")
+      private String id;
+   
+      @Column 
+      @NotNull 
+      @Pattern(regexp = "\\S{2,5}", message = "이름은 2 ~ 5자리 이내로 입력해 주세요.") // 정규 표현식을 이용한 제약사항 설정(java.util.regex)
+      private String name;
+   
+      @Column
+      @NotNull
+      @Pattern(regexp = "\\d{1,3}", message = "나이는 1 ~ 3자리 숫자로 입력해 주세요.")
+      private String age;
+   
+      // Getter, Setter
+   }
+   ```
