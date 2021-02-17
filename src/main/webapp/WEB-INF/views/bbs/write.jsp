@@ -13,8 +13,8 @@
     <form:form modelAttribute="bbs">
         <table border="1" cellpadding="0" cellspacing="0" width="500">
             <colgroup>
-                <col width="15%"/>
-                <col width=""/>
+                <col style="width:20%"/>
+                <col />
             </colgroup>
             <tbody>
             <tr>

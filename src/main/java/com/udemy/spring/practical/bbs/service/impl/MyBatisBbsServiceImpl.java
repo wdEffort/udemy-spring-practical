@@ -35,7 +35,8 @@ public class MyBatisBbsServiceImpl implements BbsService {
         String bbsSbj = request.getParameter("bbsSbj");
         String bbsCtt = request.getParameter("bbsCtt");
 
-        //this.bbsDAO.write(bbsName, bbsSbj, bbsCtt);
+        BbsDAO bbsDAO = sqlSession.getMapper(BbsDAO.class);
+        bbsDAO.write(bbsName, bbsSbj, bbsCtt);
     }
 
     @Override
@@ -50,7 +51,12 @@ public class MyBatisBbsServiceImpl implements BbsService {
 
     @Override
     public void delete(Model model) {
+        Map<String, Object> map = model.asMap();
+        HttpServletRequest request = (HttpServletRequest) map.get("request");
+        int bbsId = Integer.parseInt(request.getParameter("bbsId"));
 
+        BbsDAO bbsDAO = sqlSession.getMapper(BbsDAO.class);
+        bbsDAO.delete(bbsId);
     }
 
     @Override

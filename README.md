@@ -507,7 +507,7 @@
 2. 개발 순서
     - DB 설계 및 개발 준비
     - 도메인 객체의 설계 및 클래스 작성
-    - DAO 인터페이스 작성
+    - `DAO 인터페이스` 작성
     - XML SQL Mapper 생성과 SQL문 작성
     - 마이바티스에서 XML SQL Mapper를 인식하도록 설정
     - DAO 구현(SqlSessionTemplate 설정 및 구현 클래스 작성)

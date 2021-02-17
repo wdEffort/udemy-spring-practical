@@ -5,34 +5,42 @@
 <mapper namespace="com.udemy.spring.practical.bbs.repository.BbsDAO">
 
     <!--
-    id 속성 : 쿼리를 실행할 SQL Mapper에 매핑된 클래스의 메소드 이름
+    id 속성 : 쿼리를 실행할 SQL Mapper에 매핑된 DAO 클래스(인터페이스)의 메소드 이름
     resultType 속성 : 반환 타입
     -->
     <select id="list" resultType="com.udemy.spring.practical.bbs.vo.BbsVO">
-        SELECT BBS_ID AS bbsId,
-               BBS_NAME AS bbsName,
-               BBS_SBJ AS bbsSbj,
-               BBS_CTT AS bbsCtt,
-               BBS_DATE AS bbsDate,
-               BBS_HIT AS bbsHit,
-               BBS_GROUP AS bbsGroup,
-               BBS_STEP AS bbsStep,
+        SELECT BBS_ID     AS bbsId,
+               BBS_NAME   AS bbsName,
+               BBS_SBJ    AS bbsSbj,
+               BBS_CTT    AS bbsCtt,
+               BBS_DATE   AS bbsDate,
+               BBS_HIT    AS bbsHit,
+               BBS_GROUP  AS bbsGroup,
+               BBS_STEP   AS bbsStep,
                BBS_INDENT AS bbsIndent
         FROM BBS
         ORDER BY BBS_GROUP DESC, BBS_STEP ASC
     </select>
 
     <!--
-    <insert id="">
-
+    #{param} : 데이터베이스 테이블 컬럼 타입으로 데이터를 넣음
+    ${param} : 무조건 데이터를 집어 넣음
+    -->
+    <insert id="write">
+        INSERT INTO BBS (BBS_ID, BBS_NAME, BBS_SBJ, BBS_CTT, BBS_HIT, BBS_GROUP, BBS_STEP, BBS_INDENT)
+        VALUES (SEQ_BBS.NEXTVAL, #{param1}, #{param2}, #{param3}, 0, SEQ_BBS.CURRVAL, 0, 0)
     </insert>
 
-    <update id="">
+    <!--
+    <update id="modify">
 
     </update>
-
-    <delete id="">
-
-    </delete>
     -->
+
+    <delete id="delete">
+        DELETE
+        FROM BBS
+        WHERE BBS_ID = #{param1}
+    </delete>
+
 </mapper>

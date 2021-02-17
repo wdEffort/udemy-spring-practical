@@ -12,11 +12,12 @@
     <hr width="500 " color="red"/>
     <table border="1" cellpadding="0" cellspacing="0" width="500">
         <colgroup>
-            <col width="5%"/>
+            <col width="10%"/>
             <col width=""/>
             <col width="10%"/>
             <col width="15%"/>
-            <col width="5%"/>
+            <col width="10%"/>
+            <col width="10%"/>
         </colgroup>
         <thead>
         <tr>
@@ -25,23 +26,25 @@
             <th>작성자</th>
             <th>날짜</th>
             <th>조회수</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="bbs" items="${bbsList}">
             <tr>
-                <td>${bbs.bbsId}</td>
+                <td align="center">${bbs.bbsId}</td>
                 <td>
                     <c:forEach begin="1" end="${bbs.bbsIndent}">ㄴ</c:forEach>
                     <a href="${pageContext.request.contextPath}/bbs/view?bbsId=${bbs.bbsId}">${bbs.bbsSbj}</a>
                 </td>
-                <td>${bbs.bbsName}</td>
-                <td>${bbs.bbsDate}</td>
-                <td>${bbs.bbsHit}</td>
+                <td align="center">${bbs.bbsName}</td>
+                <td align="center">${bbs.bbsDate}</td>
+                <td align="center">${bbs.bbsHit}</td>
+                <td align="center"><a href="${pageContext.request.contextPath}/bbs/delete?bbsId=${bbs.bbsId}">삭제</a></td>
             </tr>
         </c:forEach>
         <tr>
-            <td colspan="5" align="center">
+            <td colspan="6" align="center">
                 <a href="${pageContext.request.contextPath}/bbs/write">글쓰기</a>
             </td>
         </tr>

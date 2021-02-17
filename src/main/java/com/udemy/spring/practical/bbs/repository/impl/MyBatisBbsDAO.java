@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * MyBatis에서 DAO 인터페이스를 이용하므로 사용하지 않게 됨.
+ */
 @Repository
 public class MyBatisBbsDAO implements BbsDAO {
 
