@@ -1,7 +1,6 @@
 package com.udemy.spring.practical.bbs.controller;
 
 import com.udemy.spring.practical.bbs.service.BbsService;
-import com.udemy.spring.practical.bbs.service.impl.JdbcTemplateBbsServiceImpl;
 import com.udemy.spring.practical.bbs.vo.BbsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 @RequestMapping("/bbs")
@@ -68,7 +66,8 @@ public class BbsController {
 
         return "bbs/view";
     }
-
+*/
+    /*
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public String modify(HttpServletRequest request, Model model) {
         model.addAttribute("request", request);
@@ -78,17 +77,17 @@ public class BbsController {
 
         return "redirect:/bbs/list";
     }
-
+*/
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String delete(HttpServletRequest request, Model model) {
         model.addAttribute("request", request);
 
-        this.bbsService = new JdbcTemplateBbsServiceImpl();
         this.bbsService.delete(model);
 
         return "redirect:/bbs/list";
     }
 
+    /*
     @RequestMapping(value = "/reply", method = RequestMethod.GET)
     public String replyForm(HttpServletRequest request, Model model) {
         model.addAttribute("request", request);
@@ -108,5 +107,6 @@ public class BbsController {
 
         return "redirect:/bbs/list";
     }
-    */
+
+     */
 }
