@@ -19,7 +19,7 @@
     <!-- 새로운 Oracle DataSource -->
     <bean name="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="oracle.jdbc.OracleDriver"/>
-        <property name="url" value="jdbc:oracle:thin@localhost:1521:xe"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
         <property name="username" value="hr"/>
         <property name="password" value="1234"/>
     </bean>
@@ -56,7 +56,7 @@
         <!-- DataSource Bean을 주입 -->
         <property name="dataSource" ref="dataSource"/>
         <!-- SQL Mapper XML 파일 경로 -->
-        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath:mapper/**/*.xml"/>
     </bean>
 
     <!-- MyBatis sqlSessionTemplate -->

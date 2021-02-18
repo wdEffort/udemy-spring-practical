@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.udemy.spring.practical.hr.repository.DepartmentsRepository">
+
+    <!---
+    만약, 데이터베이스 테이블 구조와 VO 클래스의 프로퍼티 구조가 다를 경우 매핑이 되지 않는다.
+    이러한 경우 <resultMap/> 태그를 사용하여 데이터베이스 테이블 컬럼과 클래스의 프로퍼티를 매핑시켜주는 작업을 할 수 있다.
+    id 속성 : resultMap의 별칭
+    type 속성 : resultMap이 매핑할 클래스 타입
+    -->
+    <resultMap id="departmentsResult" type="com.udemy.spring.practical.hr.vo.Department">
+        <!--
+        <result/> 태그를 이용하여 데이터베이스 컬럼과 <resultMap/> 태그의 type 속성으로 설정된 클래스의 프로퍼티를 매핑시켜준다.
+        column 속성 : 실제 데이터베이스 컬럼명
+        property 속성 : 클래스 프로퍼티명
+        -->
+        <result column="DEPARTMENT_ID" property="departmentId"/>
+        <result column="DEPARTMENT_NAME" property="departmentName"/>
+        <result column="MANAGER_ID" property="managerId"/>
+        <result column="LOCATION_ID" property="locationId"/>
+    </resultMap>
+
+    <!--
+    여기서는 SELECT의 결과를 클래스에 매핑시키는 것이 아닌 <resultMap/> 태그를 사용하고 있으므로
+    "resultType"을 사용하지 않고, "resultMap"을 사용한다.
+    -->
+    <select id="getDepartments" resultMap="departmentsResult">
+        SELECT DEPARTMENT_ID
+             , DEPARTMENT_NAME
+             , MANAGER_ID
+             , LOCATION_ID
+        FROM DEPARTMENTS
+        ORDER BY DEPARTMENT_ID ASC
+    </select>
+
+</mapper>
