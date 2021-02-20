@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- Oracle JDBC 드라이버 위치 설정 -->
+    <classPathEntry location="/Users/yoman/.m2/repository/com/oracle/ojdbc6/11.2.0.3/ojdbc6-11.2.0.3.jar"/>
+
+    <context id="UdemyTables" targetRuntime="MyBatis3">
+        <!-- Oracle 접속 정보 설정 -->
+        <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@localhost:1521:xe"
+                        userId="udemy"
+                        password="udemy"/>
+
+        <!--
+        <javaModelGenerator/>
+        targetPackage 속성 : DTO가 위치할 패키지 경로
+        targetProject 속성 : 프로젝트명 또는 프로젝트 소스 경로
+        -->
+        <javaModelGenerator targetPackage="com.udemy.spring.practical.mbgmember.vo"
+                            targetProject="src/main/java"/>
+
+        <!--
+        <sqlMapGenerator/>
+        targetPackage 속성 : SQL MAPPER(.xml) 파일이 위치할 패키지 경로
+        targetProject 속성 : 프로젝트명 또는 프로젝트 리소스 경로
+        -->
+        <sqlMapGenerator targetPackage="mapper.mbgmember"
+                         targetProject="src/main/resources"/>
+
+        <!--
+        <javaClientGenerator/>
+        targetPackage 속성 : DAO가 위치할 패키지 경로
+        targetProject 속성 : 프로젝트명 또는 프로젝트 소스 경로
+        type 속성 : 형식
+        -->
+        <javaClientGenerator targetPackage="com.udemy.spring.practical.mbgmember.repository"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <!--
+         <table/>
+         schema 속성 : DB 계정 이름
+         tableName : 테이블명
+         -->
+        <table schema="udemy" tableName="MEMBER"/>
+    </context>
+</generatorConfiguration>

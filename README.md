@@ -511,3 +511,13 @@
     - XML SQL Mapper 생성과 SQL문 작성
     - 마이바티스에서 XML SQL Mapper를 인식하도록 설정
     - DAO 구현(SqlSessionTemplate 설정 및 구현 클래스 작성)
+
+---
+
+## 마이바티스 Generator 플러그인 사용하기
+
+> - [메이븐 환경 프로젝트에서 MyBatis Generator 설정하기 참고 링크](https://mybatis.org/generator/running/runningWithMaven.html)
+> - [메이븐 환경 프로젝트에서 MyBatis Generator 상세 설정하기 참고 링크](https://www.fatalerrors.org/a/super-detailed-configuration-of-mybatis-generator.html)
+
+1. Generator Config 파일 생성
+   - 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.udemy.spring.practical.newmember.repository.NewMemberRepository">
+
+    <select id="getAllMembers" resultType="com.udemy.spring.practical.newmember.vo.NewMember">
+        SELECT ID
+             , PWD
+             , NAME
+             , TEL
+             , EMAIL
+        FROM MEMBER
+    </select>
+
+    <select id="getMember" parameterType="String" resultType="com.udemy.spring.practical.newmember.vo.NewMember">
+        SELECT ID
+             , PWD
+             , NAME
+             , TEL
+             , EMAIL
+        FROM MEMBER
+        WHERE ID = #{id}
+    </select>
+
+    <insert id="insertMember" parameterType="com.udemy.spring.practical.newmember.vo.NewMember">
+        INSERT INTO MEMBER
+        ( ID
+        , PWD
+        , NAME
+        , TEL
+        , EMAIL)
+        VALUES ( #{id}
+               , #{pwd}
+               , #{name}
+               , #{tel}
+               , #{email})
+    </insert>
+
+    <update id="updateMember" parameterType="com.udemy.spring.practical.newmember.vo.NewMember">
+        UPDATE MEMBER
+        SET PWD   = #{pwd}
+          , NAME  = #{name}
+          , TEL   = #{tel}
+          , EMAIL = #{email}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="deleteMember" parameterType="String">
+        DELETE
+        FROM MEMBER
+        WHERE ID = #{id}
+    </delete>
+
+</mapper>
