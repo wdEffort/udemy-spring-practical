@@ -33,11 +33,11 @@
             <url>https://repo.spring.io/plugins-release/</url>
         </repository>
 
-        <!-- Hibernate Repository(JBossdp 포함되어 있음) -->
+        <!-- Hibernate Repository(JBoss(미들뒈어 역할을 함)에 포함되어 있음) -->
         <repository>
-            <id>jboss-repo</id>
-            <name>Hibernate Repository</name>
-            <url>https://repository.jboss.org/nexus/content/groups/public</url>
+            <id>org.jboss.repository.releases</id>
+            <name>JBoss Maven Release Repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
         </repository>
     </repositories>
 
@@ -119,6 +119,19 @@
             <artifactId>spring-jdbc</artifactId>
             <version>${spring-webmvc-version}</version>
         </dependency>
+
+        <!-- s:JPA(Java Persistence API) Validation -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.4.28.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+        <!-- e:JPA(Java Persistence API) Validation -->
 
         <!-- Hibernate Validator -->
         <dependency>

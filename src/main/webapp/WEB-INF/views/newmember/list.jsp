@@ -35,8 +35,8 @@
                 <td>${newMember.tel}</td>
                 <td>${newMember.email}</td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/newmember/modify?id=${newMember.id}">수정</a>
-                    <a href="${pageContext.request.contextPath}/newmember/delete?id=${newMember.id}">삭제</a>
+                    <a href="${pageContext.request.contextPath}/newmember/modify/${newMember.id}">수정</a>
+                    <a href="${pageContext.request.contextPath}/newmember/delete/${newMember.id}">삭제</a>
                 </td>
             </tr>
         </c:forEach>

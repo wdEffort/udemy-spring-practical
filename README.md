@@ -520,4 +520,12 @@
 > - [메이븐 환경 프로젝트에서 MyBatis Generator 상세 설정하기 참고 링크](https://www.fatalerrors.org/a/super-detailed-configuration-of-mybatis-generator.html)
 
 1. Generator Config 파일 생성
-   - 
+
+---
+
+## 하이버네이트(Hibernate) Validation 쉽게 사용하는 방법
+
+1.
+
+---
+
