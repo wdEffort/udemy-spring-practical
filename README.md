@@ -582,3 +582,87 @@
                // code ...
            }
            ```
+
+---
+
+## 스프링 시큐리티(Security)
+
+1. 스프링 시큐리티란 `ACEGI` 보안으로부터 시작된 프로젝트이다.
+    - ACEGI는 강력한 보안 프레임워크의 하나이지만 많은 양의 XML 설정 코드가 필요하다라는 단점을 가지고 있다.
+    - ACEGI는 스프링 2.0부터 스프링 시큐리티로 이름이 변경되었다.
+        1) 보안 설정에 필요한 수백 줄의 코드를 간소화 시켰음.
+    - 스프링 3.0에서 시큐리티 보안 설정을 한층 더 간소화 시켰다.
+2. 인증(Authentication)
+    - 크리덴셜(Credential, 자격) 기반 인증 : 일반적으로 웹에서 사용하는 대부분의 인증 방식은 크리덴셜 기반이다.
+        1) 권한을 부여 받기 위해 한 차례의 인증 과정을 거친 후에 `사용자명(Principle, 아아디)`과 `비밀번호(Credential)`를 입력 받는다.
+        2) DB에 저장된 비밀번호와 일치하는지 확인한다.
+    - 이중 인증(Two-factor Authentication) : 한번에 두 가지 방식으로 인증을 받는 방식이다. 예를 들어 금융, 은행 웹 애플리케이션을 이용해서 온라인 거래를 할 때 로그인, 보안 인증서의
+      두 방법으로 인증을 하는 것이다.
+    - 물리적 인증 : 가장 효과적인 보안 수단으로 생체인식(지문인식, 홍채인식), 키를 이용하는 방식이다.
+3. 인가(Authorization, 권한)
+    - 부여된 권한(Granted Authority) : 적절한 절차로 사용자가 인증(Authentication)이 되었다면, 권한을 부여(Granted Authority)해야 한다.
+        1) 회원가입 등을 통해서 반영구적인 권한이 부여되었다면, 이렇게 부여된 권한을 어디에 저장해야 한다.
+    - 리소스의 권한(Intercept) : 권한이 없는 자들이 원천적으로 리소스에 접근할 수 없도록 막아내는 것이다.
+        1) 즉, 적절한 권하을 가진 자만이 해당 리소스에 접근할 수 있도록 외부요청을 원천적으로 가로채는(Intercept) 것이다.
+
+---
+
+## 스프링 시큐리티(Security) 설정
+
+1. pom.xml 설정 파일에 `Spring Security` 의존 설정 추가
+   ```xml
+   <dependencies>
+        <!-- s:Spring Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>5.2.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.2.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>5.2.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>5.2.6.RELEASE</version>
+        </dependency>
+        <!-- e:Spring Security -->
+    </dependencies>
+   ```
+2. security-context.xml 설정 파일 생성 후 시큐리티 관련 설정 추가
+3. web.xml 설정 파일에 새롭게 생성한 security-context.xml 설정 파일을 읽어들이도록 수정
+   ```xml
+    <!-- 추가적으로 설정할 환경설정 파일 등록 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/spring/root-context.xml
+            <!-- 스프링 시큐리티 환경설정 파일 추가 -->
+            /WEB-INF/spring/appServlet/security-context.xml
+        </param-value>
+    </context-param>
+   ```
+4. web.xml 설정 파일에 `DelegatingFilterProxy` 설정 추가
+    - 요청을 가로채서 스프링 시큐리티에서 인증과 인가를 확인하도록 지시할 수 있게 Filter를 등록한다.
+        1) 인증과 인가가 모두 확인 되었다면 실제 요청을 처리하게 되는 구조이다.
+    - 이때 `filter-name`은 `springSecurityFilterChain`으로 등록해야 하는데, DelegatingFilterProxy가 해당 Bean에 위임하여 시큐리티 처리를 하기 때문이다.
+       ```xml
+       <!-- Spring Security Filter 설정 -->
+       <filter>
+           <filter-name>springSecurityFilterChain</filter-name>
+           <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+       </filter>
+       <filter-mapping>
+           <filter-name>springSecurityFilterChain</filter-name>
+           <url-pattern>/*</url-pattern>
+       </filter-mapping>
+       ```
+
+

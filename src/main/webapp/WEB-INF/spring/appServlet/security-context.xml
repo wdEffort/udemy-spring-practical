@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- Spring Security 설정 파일 -->
+
+    <!--
+    <security:http/> 태그는 인증, 인가를 설정하는 태그이다.(SpringSecurityFilterChain 설정)
+    auto-config 속성 : TRUE로 설정할 경우 권한 설정에 대한 기본을 HTTP로 정한다.(기본값 : FALSE)
+    use-expressions 속성 : TRUE로 설정할 경우 RoleVoter로 구현되는 표준 Role 기반 방식 대신 SpEL(Spring Expression Language)을 사용해서 복잡한 Vote규칙을 정의할 수 있게 한다.(기본값 : TRUE)
+    -->
+    <security:http auto-config="true" use-expressions="false">
+        <!--
+        <security:intercept-url/> 태그는 인증이 필요한 URL 또는 페이지를 등록하는 태그이다.
+        pattern 속성 : 인증과 권한(인가)이 필요한 URL 또는 페이지를 등록한다.
+        access 속성 : pattern 속성에 명시한 URL 또는 페이지에 접근할 수 있는 권한을 설정한다.
+        -->
+        <security:intercept-url pattern="/welcome" access="ROLE_USER"/>
+        <security:intercept-url pattern="/admin" access="ROLE_ADMIN"/>
+    </security:http>
+
+    <!--
+    <security:authentication-manager/> 태그는 인증과 관련된 정보를 설정하는 태그이다.
+    -->
+    <security:authentication-manager>
+        <!--
+        <security:authentication-provider/> 태그는 인증에 대한 정보를 제공하는 태그이다.(계정 정보 제공자 역할)
+        -->
+        <security:authentication-provider>
+            <!--
+            <security:user-service/> 태그는 테스트를 위해 DB에 접근해 로그인 처리를 하는 것이 아닌, 스프링 컨테이너(메모리)상에 계정 정보를 저장하고 사용할 수 있게 하는 태그이다.
+            -->
+            <security:user-service>
+                <!--
+                <security:user/> 태그는 시큐리티 인메모리 계정을 설정하는 태그이다.
+                name 속성 : 계정 아이디를 설정한다.
+                password 속성 : 계정 비밀번호를 설정한다
+                authorities 속성 : 계정이 가지는 권한을 설정한다.(여러 개 권한 설정 가능)
+                -->
+                <security:user name="guest" password="{noop}guest" authorities="ROLE_USER"/>
+                <security:user name="admin" password="{noop}admin" authorities="ROLE_ADMIN, ROLE_USER"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+</beans>
