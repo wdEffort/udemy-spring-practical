@@ -50,6 +50,7 @@
             </tr>
             <tr>
                 <td colspan="2" align="center">
+                    <a href="${pageContext.request.contextPath}/newmember/list">목록</a>
                     <input type="reset" value="취소"/>
                     <input type="submit" value="수정하기"/>
                 </td>

@@ -529,3 +529,56 @@
 
 ---
 
+## 스프링에서 Session 사용하기
+
+1. 스프링에서 세션을 사용하는 방법에는 크게 두 가지가 있다.
+    - `HttpSession` 인터페이스를 이용하는 방법
+      ```java
+      @Controller
+      @RequestMapping("/http")
+      public class HttpSessionController {
+      
+          @RequestMapping(value = "/session", method = RequestMethod.GET)
+          public String httpSession(HttpSession session, Model model) {
+              // 세션 객체에 "admin"이라는 값을 "id"라는 key로 저장한다.
+              session.setAttribute("id", "admin");
+      
+              // 모델 객체에 현재 클래스 이름을 "className"이라는 key로 저장한다.
+              model.addAttribute("className", this.getClass());
+      
+              return "session/httpSession";
+          }
+      }
+      ```
+    - `@SessionAttributes` 어노테이션을 이용하는 방법
+      ```java
+      @Controller
+      @RequestMapping("/spring")
+      @SessionAttributes({"id", "name"}) // 모델 객체에 "id", "name"라는 key에 값이 설정될 때 세션에 저장하게 된다.(여러 개 설정 가능)
+      public class SpringSessionController {
+      
+          @RequestMapping(value = "/session", method = RequestMethod.GET)
+          public String springSession(Model model) {
+              // 모델 객체에 "admin"이라는 값을 "id"라는 key로 저장한다.
+              model.addAttribute("id", "admin");
+      
+              // 모델 객체에 "관리자"이라는 값을 "name"라는 key로 저장한다.
+              model.addAttribute("name", "관리자");
+      
+              // 모델 객체에 현재 클래스 이름을 "className"이라는 key로 저장한다.
+              model.addAttribute("className", this.getClass());
+      
+              return "session/springSession";
+          }
+      }
+      ```
+2. 세션을 사용할 때의 장점
+    - 회원가입 또는 회원정보를 수정할 때 사용하는 객체에 대한 내용을 세션에 저장하여 보호하면서 사용할 수 있다.
+        1) `@SessionAttributes("커맨드 객체 별칭")`을 사용한다.
+           ```java 
+           @Controller @RequestMapping("/newmember")
+           @SessionAttributes("newMember")
+           public class NewMemberController { 
+               // code ...
+           }
+           ```
