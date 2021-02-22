@@ -16,12 +16,32 @@
     -->
     <security:http auto-config="true" use-expressions="false">
         <!--
+        <security:form-login/> 태그는 시큐리티 커스텀 로그인을 설정하는 태그이다.
+        login-page 속성 : 커스텀 로그인 URL을 설정한다.(기본값 : /login)
+        login-processing-url 속성 : 로그인을 처리하는 URL을 설정한다.(기본값 : /login)
+        default-target-url 속성 : 로그인 성공 후 이동할 URL을 설정한다.(기본값 : /)
+        always-use-default-target 속성 : 로그인 성공 후 default-target-url로 갈 것인지를 설정한다.(기본값: FALSE)
+        authentication-failure-url 속성 : 로그인에 실패할 경우 처리할 URL을 설정한다.
+        authentication-failure-handler-ref 속성 : 로그인 실패시 별도로 처리할 수 있는 클래스를 설정한다.(로그인 실패 횟수, 자동 로그인 방지 등)
+        authentication-success-handler-ref 속성 : 로그인 성공시 별도로 처리할 수 있는 클래스를 설정한다.
+        username-parameter 속성 : 아이디 파라미터명을 설정한다.(input 태그 name 속성 값과 동일해야 함, 기본값 : username)
+        password-parameter 속성 : 비밀번호 파라미터명을 설정한다.(input 태그 name 속성 값과 동일해야 함, 기본값 : password)
+        -->
+        <security:form-login login-page="/security/login"
+                             default-target-url="/security/logon"
+                             authentication-failure-url="/security/login?fail"/>
+        <!--
         <security:intercept-url/> 태그는 인증이 필요한 URL 또는 페이지를 등록하는 태그이다.
         pattern 속성 : 인증과 권한(인가)이 필요한 URL 또는 페이지를 등록한다.
         access 속성 : pattern 속성에 명시한 URL 또는 페이지에 접근할 수 있는 권한을 설정한다.
         -->
         <security:intercept-url pattern="/welcome" access="ROLE_USER"/>
         <security:intercept-url pattern="/admin" access="ROLE_ADMIN"/>
+        <!--
+        <security:csrf/> 태그는 CSRF(Cross Site Request Forgery, 교차 사이트 요청 위조) Token을 설정한다.
+        disabled 속성 : CSRF Token을 사용하지 않을 것인지를 설정한다.(기본값 : FALSE)
+        -->
+        <security:csrf disabled="true"/>
     </security:http>
 
     <!--
