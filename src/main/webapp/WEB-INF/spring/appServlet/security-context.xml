@@ -41,7 +41,7 @@
         <security:csrf/> 태그는 CSRF(Cross Site Request Forgery, 교차 사이트 요청 위조) Token을 설정한다.
         disabled 속성 : CSRF Token을 사용하지 않을 것인지를 설정한다.(기본값 : FALSE)
         -->
-        <security:csrf disabled="true"/>
+        <security:csrf disabled="false"/>
     </security:http>
 
     <!--
