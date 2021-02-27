@@ -842,18 +842,20 @@
 4. web.xml 설정 파일에 `DelegatingFilterProxy` 설정 추가
     - 요청을 가로채서 스프링 시큐리티에서 인증과 인가를 확인하도록 지시할 수 있게 Filter를 등록한다.
         1) 인증과 인가가 모두 확인 되었다면 실제 요청을 처리하게 되는 구조이다.
-    - 이때 `filter-name`은 `springSecurityFilterChain`으로 등록해야 하는데, DelegatingFilterProxy가 해당 Bean에 위임하여 시큐리티 처리를 하기 때문이다.
-       ```xml
-       <!-- Spring Security Filter 설정 -->
-       <filter>
-           <filter-name>springSecurityFilterChain</filter-name>
-           <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-       </filter>
-       <filter-mapping>
-           <filter-name>springSecurityFilterChain</filter-name>
-           <url-pattern>/*</url-pattern>
-       </filter-mapping>
-       ```
+    - 여기서 주의해야 할 점은 `filter-name`은 반드시 `springSecurityFilterChain` 이름으로 등록해야 하는데, 스프링 시큐리티 내부에서 해당 이름으로
+      DelegatingFilterProxy 클래스를 찾기 때문이다. 다른 이름으로 설정할 경우 시큐리티가 정상적으로 동작하지 않을 수 있다.
+        1) DelegatingFilterProxy가 초기화 될때 자신의 이름과 같은 id를 가진 Bean을 찾아서 대리자로 등록하기 때문이다.
+           ```xml
+           <!-- Spring Security Filter 설정 -->
+           <filter>
+              <filter-name>springSecurityFilterChain</filter-name>
+              <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+           </filter>
+           <filter-mapping>
+              <filter-name>springSecurityFilterChain</filter-name>
+              <url-pattern>/*</url-pattern>
+           </filter-mapping>
+           ```
 
 ---
 
